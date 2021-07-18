@@ -1,28 +1,112 @@
 ---
 site: Pet Photos
+title: test
 ---
+<!DOCTYPE html>
+<html>
+
 <head>
     <link rel="stylesheet" href="https://unpkg.com/mvp.css">
 </head>
 <body>
 
-    <h1>{{ site }}</h1>
+    <style>body{background-color: lightgray;}</style>
+    {% if color_keyword == 'black' %}
+            <style>body{color: white;}</style>
+    {% endif %}
 
-    {% unless page.url == '/' %}
-    	<a href="/">Home</a>
+    <header>
+        <h1>{{ site }}</h1>
+        <style>header{background-color: lightblue;}</style>
+        <style>header{color: black;}</style>
+    </header>
+
+    <nav>
+        <ul>
+            <li><a href="/"><button>Index</button></a></li>
+            <li><a href="/about/"><button>About Us</button></a></li>
+        </ul>
+        <style>nav{background-color: maroon;}</style>
+    </nav>
+
+    {% if color_keyword == 'black' %}
+            <style>body{color: white;}</style>
+    {% endif %}
+
+    {{ content }}    
+
+    {% unless page.url != '/' %}
+        <ul>
+            {% for photo in collections.photos %}
+                <li>
+                    <a href="{{ photo.url }}">
+                        A {{ photo.data.photo_keyword }} photo
+                        by {{ photo.data.photographer_first_name}} {{ photo.data.photographer_last_name }}
+                    </a>
+                </li>
+            {% endfor %}
+        </ul>
+
     {% endunless %}
 
-    {{ content }}
+    {% unless page.url == '/' or page.url == '/about/' %}
+        <h2>Picture Info</h2>
 
-    <ul>
-        {% for photo in collections.photos %}
-            <li>
-                <a href="{{ photo.url }}">
-                    A {{ photo.data.photo_keyword }} photo
-                    by {{ photo.data.photographer_first_name}} {{ photo.data.photographer_last_name }}
-                </a>
-            </li>
-        {% endfor %}
-    </ul>
+        
+
+        {% if photographer_username != '' %}
+            <li><a href="https://unsplash.com/@{{photographer_username }}">Link To Source</a></li>
+        {% endif %}
+
+        <p>Ai description: {{ai_description}} </p>
+
+        {% if ai_primary_landmark_confidence != '' %}
+            <p>Ai primary landmark confidence: {{ai_primary_landmark_confidence}}</p>
+        {% endif %}
+
+        {% if photographer_first_name != '' %}
+            <p>Photographer first name: {{photographer_first_name}} </p>
+        {% endif %}
+
+        {% if photographer_last_name != '' %}
+            <p>Photographer last name: {{photographer_last_name}}</p>
+        {% endif %}
+
+        {% if photographer_username != '' %}
+            <p>Photographer username: {{photographer_username}}</p>
+        {% endif %}
+
+        <p>Stats downloads: {{stats_downloads}} </p>
+
+        {% if exif_aperture_value != '' %}
+            <p>Aperture value: {{exif_aperture_value}} </p>
+            <p>Camera make: {{exif_camera_make}} </p> 
+            <p>Camera model: {{exif_camera_model}} </p>
+            <p>Exposure time: {{exif_exposure_time}} </p>
+            <p>Focal length: {{exif_focal_length}} </p>
+            <p>Camera iso: {{exif_iso}} </p>
+        {% endif %}
+
+        {% if photo_location_city != '' %}
+            <p>City: {{photo_location_city}} </p>
+            <p>Country: {{photo_location_country}} </p>
+            <p>Location latitude: {{photo_location_latitude}}</p>
+            <p>Location longitude: {{photo_location_longitude}}</p>
+            <p>Location name: {{photo_location_name}} </p>
+        {% endif %}
+
+        {% if color_keyword != '' %}
+            <style>body{background-color: {{color_keyword}};}</style>
+        {% endif %}
+
+    {% endunless %}
+
+    <footer>
+        Copyright @ 2021 CSUF Team 1
+        <style>footer{background-color: lightblue;}</style>
+        <style>footer{color: black;}</style>
+    </footer>
 
 </body>
+
+</html>
